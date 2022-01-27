@@ -46,27 +46,3 @@ Map.addLayer(pre_ld, band_viz, 'Pre-lockdown NO2 emissions');
 
 var dif = (pre_ld.subtract(dur_ld)).divide(pre_ld).multiply(100);
 Map.addLayer(dif, imageVisParam, 'Percentage change in NO2 emissions');
-
-
-///////// MODIS NDVI //////////
-
-var modis_data = ee.ImageCollection('MODIS/006/MOD13Q1');
-
-var ndvi2019 = modis_data.filter(ee.Filter.date('2009-01-01', '2019-12-31')).select('NDVI').mean().clip(study_area);
-var ndvi2020 = modis_data.filter(ee.Filter.date('2020-01-01', '2020-12-31')).select('NDVI').mean().clip(study_area);
-
-var ndviVis = {
-  min: 0.0,
-  max: 8000.0,
-  palette: [
-    'FFFFFF', 'CE7E45', 'DF923D', 'F1B555', 'FCD163', '99B718', '74A901',
-    '66A000', '529400', '3E8601', '207401', '056201', '004C00', '023B01',
-    '012E01', '011D01', '011301'
-  ],
-};
-
-Map.addLayer(ndvi2019, ndviVis, 'NDVI mean 2019');
-Map.addLayer(ndvi2020, ndviVis, 'NDVI mean 2020');
-
-var ndviChange = (ndvi2019.subtract(ndvi2020)).divide(ndvi2019).multiply(100);
-Map.addLayer(ndviChange, imageVisParam2, 'NDVI change 2019-2020');
